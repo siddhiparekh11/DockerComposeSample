@@ -41,12 +41,29 @@ var a App
 
 func initialize(username string, password string,dbname string){
 
-	connectionString := fmt.Sprintf("%s:%s@/%s", username, password, dbname)
+	connectionString := fmt.Sprintf("%s:%s@/", username, password)
 	db,err := sql.Open("mysql",connectionString)
 	if err!=nil {
 		fmt.Print(err.Error())
 	}
 	a.DB = db
+	_,err1 := a.DB.Exec("CREATE DATABASE IF NOT EXISTS library")
+	if err1!=nil {
+		fmt.Print(err1.Error())
+	}
+	_,err2 := a.DB.Exec("USE library")
+	if err2!=nil {
+		fmt.Print(err2.Error())
+	}
+	_,err3 := a.DB.Exec("CREATE TABLE IF NOT EXISTS Authors(idAuthor INT NOT NULL AUTO_INCREMENT,firstName VARCHAR(45),lastName VARCHAR (45),PRIMARY KEY(idAuthor));")
+    if err3!=nil {
+    	fmt.Print(err3.Error())
+	}
+	_,err4 := a.DB.Exec("CREATE TABLE IF NOT EXISTS Books(idBook INT NOT NULL AUTO_INCREMENT,bookTitle VARCHAR(45),bookISBN VARCHAR (45),idAuthor INT,PRIMARY KEY(idBook),FOREIGN KEY(idAuthor) REFERENCES Authors(idAuthor));")
+	if err4!=nil {
+		fmt.Print(err4.Error())
+	}
+
 }
 
 
