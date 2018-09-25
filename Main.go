@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"os"
 )
 
 
@@ -41,7 +42,7 @@ var a App
 
 func initialize(username string, password string,dbname string){
 
-	connectionString := fmt.Sprintf("%s:%s@/", username, password)
+	connectionString := fmt.Sprintf("%s:%s@(%s)/", username, password,os.Getenv("APP_DB_HOST"))
 	db,err := sql.Open("mysql",connectionString)
 	if err!=nil {
 		fmt.Print(err.Error())
