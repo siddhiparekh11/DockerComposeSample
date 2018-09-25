@@ -11,7 +11,7 @@ services:
      expose:
        - '3306'
      environment:
-       MYSQL_ROOT_PASSWORD: 12356
+       MYSQL_ROOT_PASSWORD: 12345
    app:
      container_name: appcontainer
      depends_on:
